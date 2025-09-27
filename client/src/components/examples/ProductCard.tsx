@@ -5,6 +5,7 @@ export default function ProductCardExample() {
   return (
     <div className="max-w-sm">
       <ProductCard 
+        id={1}
         name="masala lemonade"
         description="Refreshing blend with fresh mint garnish and lemon slices"
         price={15}

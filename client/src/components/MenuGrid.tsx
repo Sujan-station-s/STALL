@@ -64,7 +64,14 @@ export default function MenuGrid() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {menuItems.map((item) => (
             <div key={item.id} data-testid={`card-product-${item.id}`}>
-              <ProductCard {...item} />
+              <ProductCard 
+                id={item.id}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                image={item.image}
+                isPopular={item.isPopular}
+              />
             </div>
           ))}
         </div>

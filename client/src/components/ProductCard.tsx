@@ -1,7 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart, Plus } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -9,7 +14,24 @@ interface ProductCardProps {
   isPopular?: boolean;
 }
 
-export default function ProductCard({ name, description, price, image, isPopular }: ProductCardProps) {
+export default function ProductCard({ id, name, description, price, image, isPopular }: ProductCardProps) {
+  const { addItem } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    addItem({
+      id,
+      name,
+      price,
+      image,
+    });
+    
+    toast({
+      title: "Added to cart! 🛒",
+      description: `${name} has been added to your cart.`,
+    });
+  };
+
   return (
     <Card className="group hover-elevate overflow-hidden border-2 border-primary/20 bg-card">
       <CardContent className="p-6">
@@ -40,7 +62,7 @@ export default function ProductCard({ name, description, price, image, isPopular
           <h3 className="text-xl font-bold text-foreground capitalize">{name}</h3>
           <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
           
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 mb-4">
             <span className="text-3xl font-bold text-primary">₹{price}</span>
             <div className="flex gap-1">
               <div className="w-2 h-2 bg-primary rounded-full"></div>
@@ -48,6 +70,15 @@ export default function ProductCard({ name, description, price, image, isPopular
               <div className="w-2 h-2 bg-primary rounded-full"></div>
             </div>
           </div>
+
+          {/* Add to Cart Button */}
+          <Button 
+            onClick={handleAddToCart}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold group-hover:scale-105 transition-transform duration-200"
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" />
+            Add to Cart
+          </Button>
         </div>
       </CardContent>
     </Card>
